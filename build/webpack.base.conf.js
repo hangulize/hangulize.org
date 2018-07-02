@@ -50,6 +50,10 @@ module.exports = {
         options: vueLoaderConfig
       },
       {
+        test: /[.-]?worker\.js$/,
+        loader: 'worker-loader'
+      },
+      {
         test: /\.js$/,
         loader: 'babel-loader',
         include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
