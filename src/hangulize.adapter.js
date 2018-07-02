@@ -1,4 +1,8 @@
+import _ from 'lodash'
+
+import { paths } from './hangulize.api'
 import Worker from './hangulize.worker'
+
 const worker = new Worker()
 
 let workerReady = false
@@ -52,12 +56,11 @@ async function call (path) {
 }
 
 // Export high-level APIs.
-export default {
-  hangulize: async (lang, word) => {
-    return call(`/hangulized/${lang}/${word}`)
-  },
-
-  specs: async () => {
-    return call('/specs')
+let api = {}
+_.forEach(paths, (fPath, name) => {
+  api[name] = async function () {
+    const path = fPath.apply(this, arguments)
+    return call(path)
   }
-}
+})
+export default api
