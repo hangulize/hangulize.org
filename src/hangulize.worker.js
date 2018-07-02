@@ -7,7 +7,13 @@ const H = self.hangulize
 const router = new Navigo()
 router
   .on('/hangulized/:lang/:word', (params) => {
-    return H.hangulize(params.lang, params.word)
+    const transcribed = H.hangulize(params.lang, params.word)
+
+    return {
+      lang: params.lang,
+      word: params.word,
+      transcribed: transcribed
+    }
   })
   .on('/specs', () => {
     let specs = []
@@ -18,7 +24,9 @@ router
       specs.push(spec)
     })
 
-    return specs
+    return {
+      specs: specs
+    }
   })
 
 self.onmessage = (e) => {
@@ -26,3 +34,6 @@ self.onmessage = (e) => {
   const result = routed.route.handler(routed.params)
   self.postMessage({ seq: e.data.seq, result: result })
 }
+
+// Let consumer know worker is ready.
+self.postMessage({ seq: -1, result: true })
