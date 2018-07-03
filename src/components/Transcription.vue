@@ -208,7 +208,7 @@ export default {
         this.transcribed = h.Hangulize(this.example.word)
       }
       */
-    }, 50)
+    }, H.workerReady ? 50 : 100)
 
     this.hangulize()
   },
