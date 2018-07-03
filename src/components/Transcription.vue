@@ -104,7 +104,7 @@ export default {
     focused (focused) {
       if (focused) {
         this.input.select()
-        this.input.scrollIntoView()
+        this.$el.scrollIntoView()
       }
     }
   },
