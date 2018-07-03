@@ -21,16 +21,11 @@ export default {
 </script>
 
 <style scoped>
+footer {
+  padding-top: 0.5rem;
+}
+
 p {
   text-align: center;
-}
-
-.logo {
-  padding: 3rem;
-  padding-bottom: 0.5rem;
-}
-
-.intro {
-  padding-bottom: 0.5rem;
 }
 </style>

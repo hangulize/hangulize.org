@@ -20,6 +20,10 @@
 </template>
 
 <style scoped>
+header {
+  padding-bottom: 1rem;
+}
+
 p {
   text-align: center;
 }
