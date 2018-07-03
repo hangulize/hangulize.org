@@ -3,8 +3,11 @@ import _ from 'lodash'
 // Translate function signatures to API paths.
 let paths = {
 
-  hangulize: (lang, word) =>
-    `/hangulized/${lang}/${word}`,
+  hangulize: (lang, word) => {
+    lang = encodeURIComponent(lang)
+    word = encodeURIComponent(word)
+    return `/hangulized/${lang}/${word}`
+  },
 
   specs: () =>
     '/specs'
