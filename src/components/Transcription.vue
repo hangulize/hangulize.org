@@ -248,6 +248,7 @@ input {
   padding: 0.1rem 0 0.2rem;
   border: none;
   border-bottom: 2px solid #49f;
+  border-radius: 0;
   width: 100%;
 }
 
