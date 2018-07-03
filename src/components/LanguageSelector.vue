@@ -18,8 +18,7 @@
 </template>
 
 <script>
-import H from 'hangulize'
-
+import H from '../hangulize.adapter'
 import Lang from './Lang'
 
 export default {
@@ -37,7 +36,7 @@ export default {
 
   computed: {
     specs () {
-      return H.specs
+      return H.$specs
     }
   },
 

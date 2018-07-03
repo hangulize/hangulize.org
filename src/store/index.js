@@ -2,7 +2,7 @@ import _ from 'lodash'
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import H from 'hangulize'
+import H from '../hangulize.adapter'
 
 Vue.use(Vuex)
 
@@ -10,7 +10,7 @@ class Transcription {
   constructor (id, lang) {
     this.id = id
     this.lang = lang
-    this.spec = H.specs[lang]
+    this.spec = H.$specs[lang]
     this.word = ''
   }
 }
@@ -35,7 +35,7 @@ export default new Vuex.Store({
 
       if (index === 0) {
         // Pick a random lang for intiializing.
-        const langs = Object.keys(H.specs)
+        const langs = Object.keys(H.$specs)
         const i = _.random(langs.length)
         lang = langs[i]
       } else {
@@ -65,7 +65,7 @@ export default new Vuex.Store({
 
     updateLang (state, {index, lang}) {
       state.transcriptions[index].lang = lang
-      state.transcriptions[index].spec = H.specs[lang]
+      state.transcriptions[index].spec = H.$specs[lang]
     },
 
     updateSpec (state, {index, spec}) {

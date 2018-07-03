@@ -3,18 +3,55 @@ import _ from 'lodash'
 import { paths } from './hangulize.api'
 import Worker from './hangulize.worker'
 
-const worker = new Worker()
+// ----------------------------------------------------------------------------
 
-let workerReady = false
+let module = {
+  // A cached {langID: spec} object from the last "/specs" request.
+  $specs: {},
+
+  // Whether the Web Worker is ready to run Hangulize on the client-side.
+  workerReady: false
+
+}
+
+// Fill Hangulize API as async functions.
+_.forEach(paths, (fPath, name) => {
+  module[name] = async function () {
+    const path = fPath.apply(this, arguments)
+    return call(path)
+  }
+})
+
+// Capture a "/specs" response to $specs.
+const _specs = module.specs
+if (_specs !== undefined) {
+  module.specs = async function () {
+    const result = await _specs()
+
+    module.$specs = {}
+    _.forEach(result.specs, (spec) => {
+      module.$specs[spec.lang.id] = spec
+    })
+
+    return result
+  }
+}
+
+export default module
+
+// ----------------------------------------------------------------------------
+
 let nextSeq = 0
 let results = {}
 let resolvers = {}
+
+const worker = new Worker()
 
 // Dispatch result from the worker.
 worker.onmessage = (e) => {
   if (e.data.seq === -1) {
     // The worker is ready.
-    workerReady = true
+    module.workerReady = true
     return
   }
 
@@ -30,12 +67,11 @@ worker.onmessage = (e) => {
 
 // Call Hangulize API in the worker.
 async function call (path) {
-  const seq = nextSeq
-  nextSeq++
-
   let result = null
 
-  if (workerReady) {
+  if (module.workerReady) {
+    const seq = nextSeq++
+
     worker.postMessage({ seq: seq, path: path })
 
     const promise = new Promise((resolve) => {
@@ -54,13 +90,3 @@ async function call (path) {
 
   return result
 }
-
-// Export high-level APIs.
-let api = {}
-_.forEach(paths, (fPath, name) => {
-  api[name] = async function () {
-    const path = fPath.apply(this, arguments)
-    return call(path)
-  }
-})
-export default api

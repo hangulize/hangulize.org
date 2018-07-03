@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import H from 'hangulize'
+import H from '../hangulize.adapter'
 
 export default {
   name: 'Lang',
@@ -39,7 +39,7 @@ export default {
     },
 
     name () {
-      return H.specs[this.lang].lang.korean
+      return H.$specs[this.lang].lang.korean
     }
   }
 }

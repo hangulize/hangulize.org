@@ -42,8 +42,7 @@
 <script>
 import _ from 'lodash'
 
-import H from 'hangulize'
-
+import H from '../hangulize.adapter'
 import Language from './Language'
 
 export default {
@@ -180,7 +179,20 @@ export default {
     //
     // https://forum.vuejs.org/t/issues-with-vuejs-component-and-debounce/7224/13
     //
-    this.hangulize = _.debounce(() => {
+    this.hangulize = _.debounce(async function () {
+      let word
+      if (this.word) {
+        this.exampleTranscribed = false
+        word = this.word
+      } else {
+        this.exampleTranscribed = true
+        word = this.example.word
+      }
+
+      const result = await H.hangulize(this.lang, word)
+      this.transcribed = result.transcribed
+
+      /*
       const h = H.newHangulizer(this.spec)
 
       if (this.word) {
@@ -195,7 +207,8 @@ export default {
       } else {
         this.transcribed = h.Hangulize(this.example.word)
       }
-    }, 100)
+      */
+    }, 50)
 
     this.hangulize()
   },

@@ -6,13 +6,25 @@ import vClickOutside from 'v-click-outside'
 
 import App from './App'
 
-Vue.config.productionTip = false
-Vue.use(SuiVue)
-Vue.use(vClickOutside)
+import H from './hangulize.adapter'
 
-/* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  components: { App },
-  template: '<App/>'
+// H.hangulize('ita', 'gloria').then(x => { console.log(1, x) })
+// H.specs().then(x => { console.log(2, x) })
+
+// setInterval(() => {
+//   H.hangulize('ita', 'gloria').then(x => { console.log(1, x) })
+//   H.specs().then(x => { console.log(2, x) })
+// }, 5000)
+
+H.specs().then((specs) => {
+  Vue.config.productionTip = false
+  Vue.use(SuiVue)
+  Vue.use(vClickOutside)
+
+  /* eslint-disable no-new */
+  new Vue({
+    el: '#app',
+    components: { App },
+    template: '<App/>'
+  })
 })
