@@ -54,17 +54,15 @@ export default {
     },
 
     insert () {
-      this.$store.commit('insertTranscription', this.transcriptions.length)
+      this.$store.commit('insertTranscription', {
+        index: this.transcriptions.length
+      })
     }
   },
 
   created () {
     if (this.transcriptions.length === 0) {
-      this.$store.commit('insertTranscription')
-      /*
-      this.$store.commit('insertTranscription')
-      this.$store.commit('insertTranscription')
-      */
+      this.$store.commit('insertTranscription', {})
       this.$nextTick(() => this.focus(0))
     }
   }

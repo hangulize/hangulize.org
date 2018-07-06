@@ -7,11 +7,11 @@ import H from '../hangulize.adapter'
 Vue.use(Vuex)
 
 class Transcription {
-  constructor (id, lang) {
+  constructor (id, lang, word = '') {
     this.id = id
     this.lang = lang
     this.spec = H.$specs[lang]
-    this.word = ''
+    this.word = word
   }
 }
 
@@ -30,7 +30,7 @@ export default new Vuex.Store({
 
   mutations: {
     // Inserts a transcription onto the given index.
-    insertTranscription (state, index = 0) {
+    insertTranscription (state, { index = 0, word = '' }) {
       let lang
 
       if (index === 0) {
@@ -44,7 +44,7 @@ export default new Vuex.Store({
       }
 
       const id = state.nextTranscriptionID++
-      const t = new Transcription(id, lang)
+      const t = new Transcription(id, lang, word)
 
       state.transcriptions.splice(index, 0, t)
     },

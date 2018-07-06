@@ -7,7 +7,7 @@
 
     @focus="focus"
     @blur="blur"
-    @submit.prevent="insert"
+    @submit.prevent="(e) => insert()"
   >
     <label>
 
@@ -31,6 +31,7 @@
         @keydown.up="focusAbove"
         @keydown.down="focusBelow"
         @keydown.backspace="maybeRemove"
+        @paste="paste"
       />
 
       <span class="transcribed">{{ transcribed }}</span>
@@ -132,8 +133,11 @@ export default {
       this.hangulize()
     },
 
-    insert () {
-      this.$store.commit('insertTranscription', this.index + 1)
+    insert (word = '') {
+      this.$store.commit('insertTranscription', {
+        index: this.index + 1,
+        word: word
+      })
     },
 
     maybeRemove () {
@@ -165,6 +169,37 @@ export default {
       if (this.focused) {
         this.$store.commit('blurTranscriptions')
       }
+    },
+
+    paste (e) {
+      let lines = e.clipboardData.getData('text').split(/\n/)
+      if (lines.length <= 1) {
+        return
+      }
+
+      e.preventDefault()
+
+      // Simulate default paste for the first line.
+      const pasteFirstLine = () => {
+        const start = e.target.selectionStart
+        const end = e.target.selectionEnd
+
+        const value = e.target.value
+        const before = value.substring(0, start)
+        const after = value.substring(end, value.length)
+
+        e.target.value = before + lines[0] + after
+        this.updateWord(e.target.value)
+
+        const cursor = end + lines[0].length - (end - start)
+        e.target.selectionStart = e.target.selectionEnd = cursor
+      }
+      pasteFirstLine()
+
+      lines.shift()
+      _.forEach(lines, (line) => {
+        this.insert(line)
+      })
     }
   },
 
