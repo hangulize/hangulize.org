@@ -23,6 +23,7 @@ export default {
 <style scoped>
 footer {
   padding-top: 0.5rem;
+  padding-bottom: 2rem;
 }
 
 p {

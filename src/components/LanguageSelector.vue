@@ -64,7 +64,9 @@ export default {
   position: absolute;
   top: 0;
   margin: 0;
-  padding: 1em 0.5em;
+  padding: 0.5rem;
+  border: none;
+  outline: none;
   background: #fff;
   z-index: 1;
   width: 40em;
@@ -74,7 +76,7 @@ export default {
 
 .language-selector li {
   display: block;
-  padding: 0.25em 0.5em;
+  padding: 0.25rem;
   cursor: pointer;
 }
 
