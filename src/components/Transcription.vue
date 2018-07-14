@@ -267,6 +267,7 @@ form {
   background: #fff;
   display: block;
   margin: 1rem 0.5rem 1.5rem;
+  padding: 1rem 0;
   transition: box-shadow 0.1s;
 }
 
@@ -281,9 +282,8 @@ input {
   font-size: 2rem;
   font-weight: 400;
   line-height: 1;
-  padding: 0.1rem 0 0.2rem;
+  padding: 0;
   border: none;
-  border-bottom: 2px solid #49f;
   border-radius: 0;
   width: 100%;
 }
@@ -306,7 +306,7 @@ input.script-roman, input.script-kana {
 
 .transcribed {
   display: block;
-  padding: 0.3rem 0 1rem;
+  padding: 0;
   font-family: 'Spoqa Han Sans', sans-serif;
   font-size: 1.75rem;
   font-weight: 400;

@@ -84,8 +84,6 @@ export default {
 .language > .lang {
   position: relative;
   display: inline-block;
-  line-height: 1.5;
-  padding-top: 0.7rem;
   cursor: pointer;
 }
 
