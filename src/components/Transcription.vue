@@ -215,17 +215,18 @@ export default {
     // https://forum.vuejs.org/t/issues-with-vuejs-component-and-debounce/7224/13
     //
     this.hangulize = _.debounce(async function () {
-      let word
       if (this.word) {
         this.exampleTranscribed = false
-        word = this.word
+
+        let word = this.word
+        const result = await H.hangulize(this.lang, word)
+
+        this.transcribed = result.transcribed
       } else {
         this.exampleTranscribed = true
-        word = this.example.word
-      }
 
-      const result = await H.hangulize(this.lang, word)
-      this.transcribed = result.transcribed
+        this.transcribed = this.example.transcribed
+      }
 
       /*
       const h = H.newHangulizer(this.spec)
