@@ -15,6 +15,19 @@ class Transcription {
   }
 }
 
+function chooseRandomLatinLang () {
+  const langs = Object.keys(H.$specs)
+
+  while (true) {
+    const i = _.random(langs.length)
+    const lang = langs[i]
+
+    if (H.$specs[lang].lang.script === 'latin') {
+      return lang
+    }
+  }
+}
+
 export default new Vuex.Store({
   state: () => ({
     transcriptions: [],
@@ -34,10 +47,9 @@ export default new Vuex.Store({
       let lang
 
       if (index === 0) {
-        // Pick a random lang for intiializing.
-        const langs = Object.keys(H.$specs)
-        const i = _.random(langs.length)
-        lang = langs[i]
+        // Pick a random Latin lang for initializing
+        // because Latin is easy to type in any keyboards.
+        lang = chooseRandomLatinLang()
       } else {
         // Use lang of the prev transcription as default.
         lang = state.transcriptions[index - 1].lang
