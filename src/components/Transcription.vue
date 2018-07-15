@@ -312,7 +312,7 @@ input.script-roman, input.script-kana {
   font-size: 1.75rem;
   font-weight: 400;
   line-height: 1.2;
-  color: #49f;
+  color: #49e;
   word-wrap: break-word;
 }
 
