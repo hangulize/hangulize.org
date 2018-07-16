@@ -18,9 +18,6 @@
 </template>
 
 <script>
-import _ from 'lodash'
-
-import H from '../hangulize.adapter'
 import Lang from './Lang'
 import LanguageSelector from './LanguageSelector'
 
@@ -36,24 +33,8 @@ export default {
 
   data: () => ({
     value: '',
-
-    selecting: false,
-
-    langs: _.map(H.$specs, (spec, lang) => ({
-      text: `${spec.lang.id} ${spec.lang.korean}`,
-      value: lang
-    }))
+    selecting: false
   }),
-
-  computed: {
-    id () {
-      return this.value.toUpperCase()
-    },
-
-    name () {
-      return H.$specs[this.value].lang.korean
-    }
-  },
 
   watch: {
     value (value) {
