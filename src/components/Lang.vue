@@ -14,6 +14,14 @@
 <script>
 import H from '../hangulize.adapter'
 
+function langName (locale, lang) {
+  if (locale === 'ko') {
+    return lang.korean
+  } else {
+    return lang.english
+  }
+}
+
 export default {
   name: 'Lang',
 
@@ -39,7 +47,7 @@ export default {
     },
 
     name () {
-      return H.$specs[this.lang].lang.korean
+      return langName(this.$i18n.locale, H.$specs[this.lang].lang)
     }
   }
 }
