@@ -71,7 +71,6 @@ export default {
 
 <style scoped>
   label {
-    background: #dbd4be;
     display: block;
     margin: 1rem 0.5rem 1.5rem;
     padding: 1rem;
@@ -79,6 +78,9 @@ export default {
     text-align: center;
     color: #fff;
     font-size: 1.5rem;
+
+    transition: background 0.3s;
+    background: #dbd4be;
   }
 
   label:hover {
