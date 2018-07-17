@@ -19,7 +19,7 @@ function chooseRandomLatinLang () {
   const langs = Object.keys(H.$specs)
 
   while (true) {
-    const i = _.random(langs.length)
+    const i = _.random(langs.length - 1)
     const lang = langs[i]
 
     if (H.$specs[lang].lang.script === 'latin') {
