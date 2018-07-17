@@ -58,25 +58,25 @@ export default {
 
 <style scoped>
 .language-selector {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  overflow-y: scroll;
+  height: 30rem;
+  width: 20rem;
 
   position: absolute;
   top: 0;
-  margin: 0;
-  padding: 0.5rem;
+  margin: -0.5rem;
+  padding: 0;
   border: none;
   outline: none;
   background: #fff;
   z-index: 1;
-  width: 40em;
 
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
 }
 
 .language-selector li {
   display: block;
-  padding: 0.25rem;
+  padding: 0.5rem;
   cursor: pointer;
 }
 
