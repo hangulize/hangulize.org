@@ -6,7 +6,7 @@ import SuiVue from 'semantic-ui-vue'
 import vClickOutside from 'v-click-outside'
 
 import App from './App'
-import messages from './messages'
+import messages from './messages.json'
 
 import H from './hangulize.adapter'
 

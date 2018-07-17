@@ -1,7 +1,7 @@
 <template>
   <header>
     <p class="logo">
-      <img src="static/logo.svg" width="196" />
+      <img :src="'static/' + $t('logo')" width="250" />
     </p>
 
     <p>
@@ -28,7 +28,8 @@ p {
 }
 
 .logo {
+  margin: 0;
   padding: 3rem;
-  padding-bottom: 0.5rem;
+  padding-bottom: 0;
 }
 </style>
