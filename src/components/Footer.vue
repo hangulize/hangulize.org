@@ -1,5 +1,16 @@
 <template>
   <footer>
+    <p class="locales">
+      <span
+        :class="{ selected: $t('locale') === 'ko' }"
+        @click="() => $i18n.locale = 'ko'"
+      >한국어</span>
+      <span
+        :class="{ selected: $t('locale') === 'en' }"
+        @click="() => $i18n.locale = 'en'"
+      >English</span>
+    </p>
+
     <p>
       &copy; 2010&ndash;{{ year }}
       <a href="https://www.facebook.com/kkeutsori/">Brian</a>
@@ -24,9 +35,23 @@ export default {
 footer {
   padding-top: 0.5rem;
   padding-bottom: 2rem;
+  text-align: center;
 }
 
-p {
-  text-align: center;
+.locales {
+  margin: 0;
+  margin-bottom: 0.2rem;
+  padding: 0;
+}
+
+.locales span {
+  cursor: pointer;
+  border-radius: 3px;
+  padding: 0.1rem 0.3rem;
+}
+
+.locales .selected {
+  /* font-weight: 700; */
+  background: rgba(0, 0, 0, 0.1);
 }
 </style>
