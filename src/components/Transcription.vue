@@ -269,7 +269,18 @@ form {
   display: block;
   margin: 1rem 0.5rem 1.5rem;
   padding: 1rem 0;
-  transition: box-shadow 0.1s;
+
+  transition: box-shadow 0.2s;
+  box-shadow: 0 2px 1px rgba(0, 0, 0, 0.1);
+}
+
+form.focused {
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+form.selecting {
+  box-shadow: none;
+  background: #f4f4f4;
 }
 
 label {
@@ -314,16 +325,6 @@ input.script-roman, input.script-kana {
   line-height: 1.3;
   color: #49e;
   word-wrap: break-word;
-}
-
-form.focused {
-  box-shadow: 0 3px 10px rgba(68, 51, 34, 0.3);
-  outline: 1px solid rgba(68, 51, 34, 0.1);
-}
-
-form.selecting {
-  box-shadow: none;
-  background: #f4f4f4;
 }
 
 .example input {
