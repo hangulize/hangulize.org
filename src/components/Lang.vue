@@ -58,5 +58,10 @@ export default {
 
 .lang code {
   font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+
+  border-radius: 3px;
+  padding: 0.1rem 0.3rem;
+  border: 1px solid #ddd;
 }
 </style>
