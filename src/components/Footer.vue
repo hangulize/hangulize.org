@@ -34,7 +34,7 @@ export default {
 <style scoped>
 footer {
   padding-top: 0.5rem;
-  padding-bottom: 2rem;
+  padding-bottom: 3rem;
   text-align: center;
 }
 
