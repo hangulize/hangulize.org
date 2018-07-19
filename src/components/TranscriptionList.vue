@@ -9,7 +9,7 @@
       <Transcription :key="t.id" :index="i" />
     </template>
 
-    <form @submit.prevent="insert">
+    <form @submit.prevent="insertLast">
       <label>
         <i class="plus icon"></i>
         <button>추가</button>
@@ -53,16 +53,17 @@ export default {
       }
     },
 
-    insert () {
-      this.$store.commit('insertTranscription', {
-        index: this.transcriptions.length
-      })
+    insertLast () {
+      const index = this.transcriptions.length
+      this.$store.commit('insertTranscription', { index })
+      this.focus(index)
     }
   },
 
   created () {
     if (this.transcriptions.length === 0) {
       this.$store.commit('insertTranscription', {})
+      this.focus(0)
       this.$nextTick(() => this.focus(0))
     }
   }

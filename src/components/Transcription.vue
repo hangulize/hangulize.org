@@ -7,7 +7,7 @@
 
     @focus="focus"
     @blur="blur"
-    @submit.prevent="(e) => insert()"
+    @submit.prevent="(e) => insertBelow()"
   >
     <label>
 
@@ -101,10 +101,7 @@ export default {
 
   watch: {
     focused (focused) {
-      if (focused) {
-        this.input.select()
-        this.$el.scrollIntoView()
-      }
+      this.focusIf(focused)
     }
   },
 
@@ -131,11 +128,10 @@ export default {
       this.hangulize()
     },
 
-    insert (word = '') {
-      this.$store.commit('insertTranscription', {
-        index: this.index + 1,
-        word: word
-      })
+    insertBelow (word = '') {
+      const index = this.index + 1
+      this.$store.commit('insertTranscription', { index, word })
+      this.$store.commit('focusTranscription', index)
     },
 
     maybeRemove () {
@@ -149,6 +145,16 @@ export default {
 
       this.$store.commit('removeTranscription', this.index)
       this.focusAbove()
+    },
+
+    focusIf (focused = undefined) {
+      if (focused === undefined) {
+        focused = this.focused
+      }
+      if (focused) {
+        this.input.select()
+        this.$el.scrollIntoView()
+      }
     },
 
     focus () {
@@ -196,7 +202,7 @@ export default {
 
       lines.shift()
       _.forEach(lines, (line) => {
-        this.insert(line)
+        this.insertBelow(line)
       })
     }
   },
@@ -248,7 +254,7 @@ export default {
   },
 
   mounted () {
-    this.focus()
+    this.focusIf()
   }
 }
 </script>
