@@ -7,11 +7,11 @@
     <p>
       <span v-html="$t('intro')"></span>
 
-      <a href="https://github.com/sublee/hangulize2">
+      <a href="https://github.com/hangulize/hangulize">
         <sui-icon name="github" />GitHub
       </a>
 
-      <a href="https://godoc.org/github.com/sublee/hangulize2/hangulize">
+      <a href="https://godoc.org/github.com/hangulize/hangulize">
         <sui-icon name="book" />GoDoc
       </a>
     </p>
