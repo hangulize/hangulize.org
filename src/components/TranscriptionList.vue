@@ -79,12 +79,12 @@ export default {
     color: #fff;
     font-size: 1.5rem;
 
-    transition: background 0.3s;
-    background: #dbd4be;
+    transition: background 0.2s;
+    background: rgba(187, 170, 136, 0.3);
   }
 
   label:hover {
-    background: #d2c8af;
+    background: rgba(187, 170, 136, 0.6);
   }
 
   button {

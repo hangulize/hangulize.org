@@ -271,7 +271,7 @@ form {
   padding: 1rem 0;
 
   transition: box-shadow 0.2s;
-  box-shadow: 0 2px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 1px rgba(68, 51, 34, 0.1);
 }
 
 form.focused {

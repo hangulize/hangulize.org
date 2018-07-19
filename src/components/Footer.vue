@@ -52,6 +52,6 @@ footer {
 
 .locales .selected {
   /* font-weight: 700; */
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(187, 170, 136, 0.3);
 }
 </style>
