@@ -3,11 +3,11 @@
     <p class="locales">
       <span
         :class="{ selected: $t('locale') === 'ko' }"
-        @click="() => $i18n.locale = 'ko'"
+        @click="() => configLocale('ko')"
       >한국어</span>
       <span
         :class="{ selected: $t('locale') === 'en' }"
-        @click="() => $i18n.locale = 'en'"
+        @click="() => configLocale('en')"
       >English</span>
     </p>
 
@@ -27,7 +27,14 @@ export default {
 
   data: () => ({
     year: (new Date()).getFullYear()
-  })
+  }),
+
+  methods: {
+    configLocale (locale) {
+      this.$i18n.locale = locale
+      this.$store.commit('rememberLocale', locale)
+    }
+  }
 }
 </script>
 

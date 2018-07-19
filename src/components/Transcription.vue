@@ -91,9 +91,7 @@ export default {
     },
 
     example () {
-      const test = this.spec.test
-      const i = _.floor(test.length * this.random)
-      return test[i]
+      return this.transcription.example
     },
 
     focused () {

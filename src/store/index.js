@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import Vue from 'vue'
 import Vuex from 'vuex'
+import createPersistedState from 'vuex-persistedstate'
 
 import H from '../hangulize.adapter'
 
@@ -12,6 +13,11 @@ class Transcription {
     this.lang = lang
     this.spec = H.$specs[lang]
     this.word = word
+
+    // Choose a random example.
+    const test = this.spec.test
+    const i = _.random(test.length - 1)
+    this.example = test[i]
   }
 }
 
@@ -29,8 +35,15 @@ function chooseRandomLatinLang () {
 }
 
 export default new Vuex.Store({
+  plugins: [
+    createPersistedState()
+  ],
+
   state: () => ({
+    locale: navigator.language,
+
     transcriptions: [],
+
     focusedTranscriptionID: null,
     nextTranscriptionID: 0
   }),
@@ -42,6 +55,12 @@ export default new Vuex.Store({
   },
 
   mutations: {
+    // Here cannot access to $i18n. So the committers
+    // have responsibility to change $i18n.locale too.
+    rememberLocale (state, locale) {
+      state.locale = locale
+    },
+
     // Inserts a transcription onto the given index.
     insertTranscription (state, { index = 0, word = '' }) {
       let lang
