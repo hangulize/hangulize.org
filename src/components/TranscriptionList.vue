@@ -11,7 +11,7 @@
 
     <form @submit.prevent="insertLast">
       <label>
-        <i class="plus icon"></i>
+        <sui-icon name="plus" />
         <button>추가</button>
       </label>
     </form>
