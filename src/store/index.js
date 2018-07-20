@@ -4,22 +4,9 @@ import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 
 import H from '../hangulize.adapter'
+import Transcription from './Transcription'
 
 Vue.use(Vuex)
-
-class Transcription {
-  constructor (id, lang, word = '') {
-    this.id = id
-    this.lang = lang
-    this.spec = H.$specs[lang]
-    this.word = word
-
-    // Choose a random example.
-    const test = this.spec.test
-    const i = _.random(test.length - 1)
-    this.example = test[i]
-  }
-}
 
 function chooseRandomLatinLang () {
   const langs = Object.keys(H.$specs)
@@ -50,7 +37,7 @@ export default new Vuex.Store({
 
   getters: {
     getTranscription: (state) => (i) => {
-      return state.transcriptions[i]
+      return Transcription.wrap(state.transcriptions[i])
     }
   },
 
@@ -96,7 +83,6 @@ export default new Vuex.Store({
 
     updateLang (state, {index, lang}) {
       state.transcriptions[index].lang = lang
-      state.transcriptions[index].spec = H.$specs[lang]
     },
 
     updateSpec (state, {index, spec}) {
