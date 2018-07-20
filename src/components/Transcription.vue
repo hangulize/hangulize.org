@@ -279,7 +279,7 @@ form {
 }
 
 form.focused {
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 3px 10px rgba(68, 51, 34, 0.3);
 }
 
 form.selecting {
