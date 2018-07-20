@@ -272,7 +272,6 @@ form {
   background: #fff;
   display: block;
   margin: 1rem 0.5rem 1.5rem;
-  padding: 1rem 0;
 
   transition: box-shadow 0.2s;
   box-shadow: 0 2px 1px rgba(68, 51, 34, 0.1);
@@ -289,7 +288,7 @@ form.selecting {
 
 label {
   display: block;
-  padding: 0 1em;
+  padding: 1rem;
   cursor: text;
 }
 
