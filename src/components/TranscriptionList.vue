@@ -6,7 +6,7 @@
     />
 
     <template v-for="(t, i) in transcriptions">
-      <Transcription :key="t.id" :index="i" />
+      <Transcription :key="t.id" :index="i" :length="transcriptions.length" />
     </template>
 
     <form @submit.prevent="insertLast">

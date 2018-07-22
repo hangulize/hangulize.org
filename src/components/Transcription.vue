@@ -1,43 +1,55 @@
 <template>
-  <form
+  <div
     class="transcription"
-
-    tabindex="-1"
     :class="{ focused, selecting, example: exampleTranscribed }"
-
-    @focus="focus"
-    @blur="blur"
-    @submit.prevent="(e) => insertBelow()"
   >
-    <label>
+    <button
+      type="butotn"
+      class="close"
+      @focus="focus"
+      @blur="blur"
+      @click.prevent="remove"
+      v-if="length > 1"
+    >
+      <sui-icon name="close" />
+    </button>
+    <form
+      tabindex="-1"
 
-      <Language
-        :lang="lang"
-        @input="updateLang"
-        @open="selecting = true"
-        @close="selecting = false"
-      />
+      @focus="focus"
+      @blur="blur"
+      @submit.prevent="(e) => insertBelow()"
+    >
+      <label>
 
-      <input
-        ref="input"
+        <Language
+          :lang="lang"
+          @input="updateLang"
+          @open="selecting = true"
+          @close="selecting = false"
+        />
 
-        :placeholder="example.word"
-        :value="word"
-        :class="'script-' + spec.lang.script"
+        <input
+          ref="input"
 
-        @input="(e) => updateWord(e.target.value)"
-        @focus="focus"
-        @blur="blur"
-        @keydown.up="focusAbove"
-        @keydown.down="focusBelow"
-        @keydown.backspace="maybeRemove"
-        @paste="paste"
-      />
+          :placeholder="example.word"
+          :value="word"
+          :class="'script-' + spec.lang.script"
 
-      <span class="transcribed">{{ transcribed }}</span>
+          @input="(e) => updateWord(e.target.value)"
+          @focus="focus"
+          @blur="blur"
+          @keydown.up="focusAbove"
+          @keydown.down="focusBelow"
+          @keydown.backspace="maybeRemove"
+          @paste="paste"
+        />
 
-    </label>
-  </form>
+        <span class="transcribed">{{ transcribed }}</span>
+
+      </label>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -53,7 +65,10 @@ export default {
     Language
   },
 
-  props: ['index'],
+  props: [
+    'index',
+    'length'
+  ],
 
   data: () => ({
     random: _.random(true),
@@ -134,6 +149,11 @@ export default {
       this.$store.commit('focusTranscription', index)
     },
 
+    remove () {
+      this.$store.commit('removeTranscription', this.index)
+      this.focusAbove()
+    },
+
     maybeRemove () {
       if (this.index === 0) {
         return
@@ -143,8 +163,7 @@ export default {
         return
       }
 
-      this.$store.commit('removeTranscription', this.index)
-      this.focusAbove()
+      this.remove()
     },
 
     focusIf (focused = undefined) {
@@ -268,7 +287,8 @@ export default {
   outline: none;
 }
 
-form {
+.transcription {
+  position: relative;
   background: #fff;
   display: block;
   margin: 1rem 0.5rem 1.5rem;
@@ -277,11 +297,11 @@ form {
   box-shadow: 0 2px 1px rgba(68, 51, 34, 0.1);
 }
 
-form.focused {
+.transcription.focused {
   box-shadow: 0 3px 10px rgba(68, 51, 34, 0.3);
 }
 
-form.selecting {
+.transcription.selecting {
   box-shadow: none;
   background: #f4f4f4;
 }
@@ -290,6 +310,19 @@ label {
   display: block;
   padding: 1rem;
   cursor: text;
+}
+
+button.close {
+  position: absolute;
+  top: 1rem;
+  right: 0.5rem;
+  z-index: 1;
+
+  display: none;
+}
+
+.transcription.focused button.close {
+  display: block;
 }
 
 input {
