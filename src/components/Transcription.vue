@@ -27,6 +27,8 @@
           @input="updateLang"
           @open="selecting = true"
           @close="selecting = false"
+          @focus="focus"
+          @blur="blur"
         />
 
         <input

@@ -4,6 +4,8 @@
     class="lang"
     tabindex="0"
     v-on="$listeners"
+    @focus="() => $emit('focus')"
+    @blur="() => $emit('blur')"
   >
     <code>{{ id }}</code>
     <span>{{ name }}</span>

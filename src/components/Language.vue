@@ -4,6 +4,8 @@
       :lang="lang"
       @click.stop="selecting = true"
       @keypress.enter="selecting = true"
+      @focus="() => $emit('focus')"
+      @blur="() => $emit('blur')"
     >
       <sui-icon name="dropdown" />
     </Lang>
