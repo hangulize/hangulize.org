@@ -9,7 +9,7 @@
       @focus="focus"
       @blur="blur"
       @click.prevent="remove"
-      v-if="length > 1"
+      v-if="closeable"
     >
       <sui-icon name="close" />
     </button>
@@ -69,7 +69,7 @@ export default {
 
   props: [
     'index',
-    'length'
+    'closeable'
   ],
 
   data: () => ({
