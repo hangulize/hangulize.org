@@ -320,7 +320,17 @@ button.close {
   right: 0.5rem;
   z-index: 1;
 
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: #ccc;
+  cursor: pointer;
+
   display: none;
+}
+
+button.close:hover {
+  color: #000;
 }
 
 .transcription.focused button.close {
