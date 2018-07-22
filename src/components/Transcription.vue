@@ -67,10 +67,10 @@ export default {
     Language
   },
 
-  props: [
-    'index',
-    'closeable'
-  ],
+  props: {
+    index: Number,
+    closeable: Boolean
+  },
 
   data: () => ({
     random: _.random(true),
