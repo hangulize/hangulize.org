@@ -1,7 +1,7 @@
 <template>
   <header>
     <p class="logo">
-      <img :src="'static/' + $t('logo')" width="250" />
+      <img :src="'/static/' + $t('logo')" width="250" />
     </p>
 
     <p>
