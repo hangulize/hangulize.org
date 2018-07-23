@@ -9,8 +9,21 @@
       <Transcription
         :key="t.id"
         :index="i"
-        :closeable="transcriptions.length > 0"
+
+        :lang="t.lang"
+        :word="t.word"
+        :random="t.random"
+
+        @lang="(lang) => t.lang = lang"
+        @word="(word) => t.word = word"
+
+        :closeable="transcriptions.length > 1"
         :focused="isFocused(t.id)"
+
+        @focus="(indexDelta) => focus(i + indexDelta)"
+        @blur="() => blur(t.id, i)"
+        @close="() => removeIfNotFirst(i)"
+        @submit.prevent="() => insertBelow(i)"
       />
     </template>
 
@@ -62,10 +75,29 @@ export default {
       return id === this.$store.state.focusedTranscriptionID
     },
 
+    blur (id, index) {
+      this.$store.commit('blurTranscriptions')
+    },
+
+    insertBelow (index) {
+      index++
+      this.$store.commit('insertTranscription', { index })
+      this.focus(index)
+    },
+
     insertLast () {
       const index = this.transcriptions.length
       this.$store.commit('insertTranscription', { index })
       this.focus(index)
+    },
+
+    removeIfNotFirst (index) {
+      if (index === 0) {
+        return
+      }
+
+      this.$store.commit('removeTranscription', index)
+      this.$nextTick(() => this.focus(index - 1))
     }
   },
 

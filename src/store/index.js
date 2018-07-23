@@ -49,16 +49,16 @@ export default new Vuex.Store({
     },
 
     // Inserts a transcription onto the given index.
-    insertTranscription (state, { index = 0, word = '' }) {
-      let lang
-
-      if (index === 0) {
-        // Pick a random Latin lang for initializing
-        // because Latin is easy to type in any keyboards.
-        lang = chooseRandomLatinLang()
-      } else {
-        // Use lang of the prev transcription as default.
-        lang = state.transcriptions[index - 1].lang
+    insertTranscription (state, { index = 0, lang = undefined, word = '' }) {
+      if (lang === undefined) {
+        if (index === 0) {
+          // Pick a random Latin lang for initializing
+          // because Latin is easy to type in any keyboards.
+          lang = chooseRandomLatinLang()
+        } else {
+          // Use lang of the prev transcription as default.
+          lang = state.transcriptions[index - 1].lang
+        }
       }
 
       const id = state.nextTranscriptionID++

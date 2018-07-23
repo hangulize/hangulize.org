@@ -8,7 +8,7 @@
       class="close"
       @focus="focus"
       @blur="blur"
-      @click.prevent="remove"
+      @click.prevent="close"
       v-if="closeable"
     >
       <sui-icon name="close" />
@@ -18,7 +18,7 @@
 
       @focus="focus"
       @blur="blur"
-      @submit.prevent="(e) => insertBelow()"
+      @submit="submit"
     >
       <label>
 
@@ -43,7 +43,7 @@
           @blur="blur"
           @keydown.up="focusAbove"
           @keydown.down="focusBelow"
-          @keydown.backspace="maybeRemove"
+          @keydown.backspace="closeIfEmpty"
           @paste="paste"
         />
 
@@ -69,12 +69,16 @@ export default {
 
   props: {
     index: Number,
+
+    lang: String,
+    word: String,
+    random: Number,
+
     closeable: Boolean,
     focused: Boolean
   },
 
   data: () => ({
-    random: _.random(true),
     selecting: false,
 
     transcribed: '',
@@ -84,38 +88,20 @@ export default {
   }),
 
   computed: {
-    input () {
-      return this.$refs.input
-    },
-
-    transcription () {
-      return this.$store.getters.getTranscription(this.index)
-    },
-
-    id () {
-      return this.transcription.id
-    },
-
-    lang () {
-      return this.transcription.lang
-    },
-
     spec () {
-      return this.transcription.spec
-    },
-
-    word () {
-      return this.transcription.word
+      return H.$specs[this.lang]
     },
 
     example () {
-      return this.transcription.example
+      const test = this.spec.test
+      const i = _.floor(test.length * this.random)
+      return test[i]
     }
   },
 
   watch: {
-    focused (focused) {
-      this.focusIf(focused)
+    focused () {
+      this.focusIf()
     }
   },
 
@@ -125,72 +111,55 @@ export default {
     },
 
     updateLang (lang) {
-      this.$store.commit('updateLang', {
-        index: this.index,
-        lang: lang
-      })
-
+      this.$emit('lang', lang)
       this.transcribed = ''
       this.hangulize()
     },
 
     updateWord (word) {
-      this.$store.commit('updateWord', {
-        index: this.index,
-        word: word
-      })
+      this.$emit('word', word)
       this.hangulize()
     },
 
-    insertBelow (word = '') {
-      const index = this.index + 1
-      this.$store.commit('insertTranscription', { index, word })
-      this.$store.commit('focusTranscription', index)
+    close () {
+      this.$emit('close')
     },
 
-    remove () {
-      this.$store.commit('removeTranscription', this.index)
-      this.focusAbove()
-    },
-
-    maybeRemove () {
-      if (this.index === 0) {
+    closeIfEmpty () {
+      if (this.word !== '') {
         return
       }
 
-      if (this.input.value !== '') {
-        return
-      }
-
-      this.remove()
+      this.close()
     },
 
-    focusIf (focused = undefined) {
-      if (focused === undefined) {
-        focused = this.focused
-      }
-      if (focused) {
-        this.input.select()
-        this.$el.scrollIntoView()
+    focusIf () {
+      if (this.focused) {
+        this.$refs.input.select()
+        // this.$el.scrollIntoView()
       }
     },
 
     focus () {
-      this.$store.commit('focusTranscription', this.index)
+      this.$emit('focus', 0)
     },
 
     focusAbove () {
-      this.$store.commit('focusTranscription', this.index - 1)
+      this.$emit('focus', -1)
     },
 
     focusBelow () {
-      this.$store.commit('focusTranscription', this.index + 1)
+      this.$emit('focus', +1)
     },
 
-    blur () {
+    blur (e) {
       if (this.focused) {
-        this.$store.commit('blurTranscriptions')
+        this.$emit('blur', e)
       }
+    },
+
+    submit (e) {
+      this.$emit('submit', e)
     },
 
     paste (e) {
@@ -249,23 +218,6 @@ export default {
 
         this.transcribed = this.example.transcribed
       }
-
-      /*
-      const h = H.newHangulizer(this.spec)
-
-      if (this.word) {
-        this.exampleTranscribed = false
-        this.transcribed = h.Hangulize(this.word)
-        return
-      }
-
-      this.exampleTranscribed = true
-      if (this.spec === H.specs[this.lang]) {
-        this.transcribed = this.example.transcribed
-      } else {
-        this.transcribed = h.Hangulize(this.example.word)
-      }
-      */
     }, H.workerReady ? 50 : 100)
 
     this.hangulize()
