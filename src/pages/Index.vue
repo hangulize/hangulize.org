@@ -9,7 +9,9 @@
       <Transcription
         :key="t.id"
         :index="i"
-        :closeable="transcriptions.length > 0" />
+        :closeable="transcriptions.length > 0"
+        :focused="isFocused(t.id)"
+      />
     </template>
 
     <form @submit.prevent="insertLast">
@@ -54,6 +56,10 @@ export default {
       if (e.target === document.body) {
         this.focus(this.transcriptions.length - 1)
       }
+    },
+
+    isFocused (id) {
+      return id === this.$store.state.focusedTranscriptionID
     },
 
     insertLast () {

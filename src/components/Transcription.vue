@@ -69,7 +69,8 @@ export default {
 
   props: {
     index: Number,
-    closeable: Boolean
+    closeable: Boolean,
+    focused: Boolean
   },
 
   data: () => ({
@@ -109,10 +110,6 @@ export default {
 
     example () {
       return this.transcription.example
-    },
-
-    focused () {
-      return this.id === this.$store.state.focusedTranscriptionID
     }
   },
 
