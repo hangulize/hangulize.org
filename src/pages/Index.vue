@@ -1,5 +1,5 @@
 <template>
-  <div class="transcriptions">
+  <div>
     <GlobalEvents
       @keydown.up="focusLast"
       @keydown.down="focusFirst"
@@ -27,10 +27,10 @@
 import { mapState } from 'vuex'
 import GlobalEvents from 'vue-global-events'
 
-import Transcription from './Transcription'
+import Transcription from '../components/Transcription'
 
 export default {
-  name: 'TranscriptionList',
+  name: 'Index',
 
   components: {
     Transcription,
