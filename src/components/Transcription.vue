@@ -229,7 +229,7 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css?family=Noto+Sans&subset=cyrillic,greek,vietnamese');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
 @import url('https://fonts.googleapis.com/earlyaccess/notosansjp.css');
 @import url('https://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css');
 
@@ -304,8 +304,8 @@ input::selection {
   background: #bdf;
 }
 
-input.script-roman, input.script-cyrillic {
-  font-family: 'Noto Sans', sans-serif;
+input.script-latin, input.script-cyrillic {
+  font-family: 'Roboto', sans-serif;
 }
 
 input.script-roman, input.script-kana {
