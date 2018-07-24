@@ -14,14 +14,14 @@
         :word="t.word"
         :random="t.random"
 
-        @lang="(lang) => t.lang = lang"
-        @word="(word) => t.word = word"
+        @lang="(lang) => updateLang(i, lang)"
+        @word="(word) => updateWord(i, word)"
 
         :closeable="transcriptions.length > 1"
-        :focused="isFocused(t.id)"
+        :focused="isFocused(i)"
 
         @focus="() => focus(i)"
-        @blur="() => blur(t.id, i)"
+        @blur="() => blur()"
 
         @close="() => removeIfNotFirst(i)"
         @submit.prevent="() => insertBelow(i)"
@@ -60,6 +60,18 @@ export default {
   },
 
   methods: {
+    // input
+
+    updateLang (index, lang) {
+      this.$store.commit('updateLang', { index, lang })
+    },
+
+    updateWord (index, word) {
+      this.$store.commit('updateWord', { index, word })
+    },
+
+    // focus
+
     focus (index) {
       this.$store.commit('focusTranscription', index)
     },
@@ -76,13 +88,17 @@ export default {
       }
     },
 
-    isFocused (id) {
+    blur () {
+      this.$store.commit('blurTranscriptions')
+    },
+
+    isFocused (index) {
+      const t = this.$store.getters.getTranscription(index)
+      const id = t.id
       return id === this.$store.state.focusedTranscriptionID
     },
 
-    blur (id, index) {
-      this.$store.commit('blurTranscriptions')
-    },
+    // insert
 
     insertBelow (index) {
       index++
@@ -96,6 +112,8 @@ export default {
       this.focus(index)
     },
 
+    // remove
+
     removeIfNotFirst (index) {
       if (index === 0) {
         return
@@ -107,6 +125,7 @@ export default {
   },
 
   created () {
+    // Make sure at least 1 transcription.
     if (this.transcriptions.length === 0) {
       this.$store.commit('insertTranscription', {})
       this.focus(0)
