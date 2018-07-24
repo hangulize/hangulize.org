@@ -107,6 +107,15 @@ export default {
   watch: {
     focused () {
       this.focusIf()
+    },
+
+    lang () {
+      this.transcribed = ''
+      this.hangulize()
+    },
+
+    word () {
+      this.hangulize()
     }
   },
 
@@ -117,13 +126,10 @@ export default {
 
     updateLang (lang) {
       this.$emit('lang', lang)
-      this.transcribed = ''
-      this.hangulize()
     },
 
     updateWord (word) {
       this.$emit('word', word)
-      this.hangulize()
     },
 
     close () {
