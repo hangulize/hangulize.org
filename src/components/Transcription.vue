@@ -41,10 +41,8 @@
           @input="(e) => updateWord(e.target.value)"
           @focus="focus"
           @blur="blur"
-          @keydown.up="focusAbove"
-          @keydown.down="focusBelow"
-          @keydown.backspace="closeIfEmpty"
           @paste="paste"
+          @keydown="keydown"
         />
 
         <span class="transcribed">{{ transcribed }}</span>
@@ -72,7 +70,10 @@ export default {
 
     lang: String,
     word: String,
-    random: Number,
+    random: {
+      type: Number,
+      default: 0
+    },
 
     closeable: Boolean,
     focused: Boolean
@@ -125,14 +126,6 @@ export default {
       this.$emit('close')
     },
 
-    closeIfEmpty () {
-      if (this.word !== '') {
-        return
-      }
-
-      this.close()
-    },
-
     focusIf () {
       if (this.focused) {
         this.$refs.input.select()
@@ -141,15 +134,11 @@ export default {
     },
 
     focus () {
-      this.$emit('focus', 0)
+      this.$emit('focus')
     },
 
-    focusAbove () {
-      this.$emit('focus', -1)
-    },
-
-    focusBelow () {
-      this.$emit('focus', +1)
+    keydown (e) {
+      this.$emit('keydown', e)
     },
 
     blur (e) {

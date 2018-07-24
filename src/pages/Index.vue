@@ -20,10 +20,15 @@
         :closeable="transcriptions.length > 1"
         :focused="isFocused(t.id)"
 
-        @focus="(indexDelta) => focus(i + indexDelta)"
+        @focus="() => focus(i)"
         @blur="() => blur(t.id, i)"
+
         @close="() => removeIfNotFirst(i)"
         @submit.prevent="() => insertBelow(i)"
+
+        @keydown.up="focus(i - 1)"
+        @keydown.down="focus(i + 1)"
+        @keydown.backspace="() => t.word || removeIfNotFirst(i)"
       />
     </template>
 
