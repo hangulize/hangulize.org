@@ -45,7 +45,11 @@
           @keydown="keydown"
         />
 
-        <span class="transcribed">{{ transcribed }}</span>
+        <!--
+          Use zero-width space (&#8203;) as the placeholder
+          to consist of the height.
+        -->
+        <span class="transcribed">{{ transcribed || '&#8203;' }}</span>
 
       </label>
     </form>
