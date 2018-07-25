@@ -5,6 +5,8 @@ import Worker from './hangulize.worker'
 
 // ----------------------------------------------------------------------------
 
+const api = 'https://api.hangulize.org/v2'
+
 let module = {
   // A cached {langID: spec} object from the last "/specs" request.
   $specs: {},
@@ -80,7 +82,7 @@ async function call (path) {
 
     result = await promise
   } else {
-    let res = await fetch('https://api.hangulize.org/v2' + path, {
+    let res = await fetch(api + path, {
       headers: new Headers({
         'Accept': 'application/json'
       })
