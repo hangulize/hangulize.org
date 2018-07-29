@@ -14,6 +14,10 @@ let module = {
 // Prefetch the pronunciation always via the Web API.
 // Pronouncers are not built for JS.
 async function prefetchPronunciation (pronouncer, word) {
+  if (!pronouncer) {
+    return
+  }
+
   const safePronouncer = encodeURIComponent(pronouncer)
   const safeWord = encodeURIComponent(word)
 
@@ -27,10 +31,8 @@ async function prefetchPronunciation (pronouncer, word) {
 
 module.hangulize = async function (lang, word) {
   if (workerReady()) {
-    // Should prefetch the pronunciation because the pronouncer is not built
-    // for JS.
+    // Prefetch the pronunciation.
     const spec = module.$specs[lang]
-    console.log(spec.lang)
     await prefetchPronunciation(spec.lang.pronounce, word)
   }
 
