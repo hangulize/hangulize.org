@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import Navigo from 'navigo'
 
-import { route } from './hangulize.api'
+import { route } from './api'
 
 self.importScripts('https://github.com/hangulize/hangulize.js/releases/download/0.1.1/hangulize-0.1.1.js')
 const H = self.hangulize
