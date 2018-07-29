@@ -3,7 +3,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 
-import H from '../hangulize.adapter'
+import H from '../hangulize/adapter'
 import Transcription from './Transcription'
 
 Vue.use(Vuex)

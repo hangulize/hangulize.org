@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-import H from '../hangulize.adapter'
+import H from '../hangulize/adapter'
 
 class Transcription {
   constructor (id, lang, word = '', random = undefined) {

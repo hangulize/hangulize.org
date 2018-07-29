@@ -1,7 +1,7 @@
 import _ from 'lodash'
 
-import { paths } from './hangulize.api'
-import Worker from './hangulize.worker'
+import { paths } from './hangulize/api'
+import Worker from './hangulize/worker'
 
 // ----------------------------------------------------------------------------
 

@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import H from '../hangulize.adapter'
+import H from '../hangulize/adapter'
 import Lang from './Lang'
 
 export default {

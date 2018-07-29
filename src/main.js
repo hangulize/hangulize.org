@@ -4,7 +4,7 @@ import Vue from 'vue'
 
 import './init-vue'
 import App from './App'
-import H from './hangulize.adapter'
+import H from './hangulize/adapter'
 
 H.specs().then((specs) => {
   /* eslint-disable no-new */

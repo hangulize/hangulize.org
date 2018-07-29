@@ -59,7 +59,7 @@
 <script>
 import _ from 'lodash'
 
-import H from '../hangulize.adapter'
+import H from '../hangulize/adapter'
 import Language from './Language'
 
 export default {
