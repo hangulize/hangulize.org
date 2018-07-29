@@ -1,5 +1,6 @@
 import _ from 'lodash'
 
+// TODO(sublee): Remove it.
 // Translate function signatures to API paths.
 let paths = {
 
@@ -14,6 +15,31 @@ let paths = {
 
 }
 
+// Prefetched pronunciation keeper.
+let pronounciations = {}
+
+function keepPronounced (pronouncer, word, pronounced) {
+  if (pronounciations[pronouncer] === undefined) {
+    pronounciations[pronouncer] = {}
+  }
+  pronounciations[pronouncer][word] = pronounced
+}
+
+function popPronounced (pronouncer, word) {
+  if (pronounciations[pronouncer] === undefined) {
+    return
+  }
+
+  const pronounced = pronounciations[pronouncer][word]
+
+  delete pronounciations[pronouncer][word]
+  if (_.size(pronounciations[pronouncer]) === 0) {
+    delete pronounciations[pronouncer]
+  }
+
+  return pronounced
+}
+
 // Handle the Hangulize API locally.
 let route = {
 
@@ -25,6 +51,14 @@ let route = {
       word: params.word,
       transcribed: transcribed
     }
+  },
+
+  // Keep prefetched pronounciation.
+  '/_pronounced/:pronouncer/:word/:pronounced': (H, params) => {
+    keepPronounced(params.pronouncer, params.word, params.pronounced)
+    H.usePronouncer(params.pronouncer, (word) => {
+      return popPronounced(params.pronouncer, word)
+    })
   },
 
   '/specs': (H) => {

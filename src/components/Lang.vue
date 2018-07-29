@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import H from '../hangulize/adapter'
+import H from '../hangulize'
 
 function langName (locale, lang) {
   if (locale === 'ko') {

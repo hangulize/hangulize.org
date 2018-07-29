@@ -59,7 +59,7 @@
 <script>
 import _ from 'lodash'
 
-import H from '../hangulize/adapter'
+import H from '../hangulize'
 import Language from './Language'
 
 export default {
@@ -217,7 +217,7 @@ export default {
 
         this.transcribed = this.example.transcribed
       }
-    }, H.workerReady ? 50 : 100)
+    }, H.workerReady() ? 50 : 100)
 
     this.hangulize()
   },

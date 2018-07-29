@@ -1,24 +1,20 @@
-import _ from 'lodash'
-
-import { paths } from './api'
 import Worker from './worker'
 
-// ----------------------------------------------------------------------------
-// Calling Hangulize API via worker or api.hangulize.org.
-
-const api = 'https://api.hangulize.org/v2'
+// const api = 'https://api.hangulize.org/v2'
+const api = 'http://nop.subl.ee:8000/v2'
 
 let nextSeq = 0
 let results = {}
 let resolvers = {}
 
 const worker = new Worker()
+let _workerReady = false
 
 // Dispatch result from the worker.
 worker.onmessage = (e) => {
   if (e.data.seq === -1) {
     // The worker is ready.
-    module.workerReady = true
+    _workerReady = true
     return
   }
 
@@ -32,65 +28,46 @@ worker.onmessage = (e) => {
   resolve(e.data.result)
 }
 
-// Call Hangulize API in the worker.
-async function call (path) {
+// Whether the Web Worker is ready to run Hangulize on the client-side.
+export function workerReady () {
+  return _workerReady
+}
+
+// Call Hangulize API via the worker.
+export async function callWorker (path) {
+  const seq = nextSeq++
+
+  worker.postMessage({ seq: seq, path: path })
+
+  const promise = new Promise((resolve) => {
+    resolvers[seq] = resolve
+  })
+
+  const result = await promise
+  return result
+}
+
+// Call Hangulize API via the Web API.
+export async function callWeb (path) {
+  let res = await fetch(api + path, {
+    headers: new Headers({
+      'Accept': 'application/json'
+    })
+  })
+
+  const result = await res.json()
+  return result
+}
+
+// Call Hangulize API via the fastest one.
+export async function call (path) {
   let result = null
 
-  if (module.workerReady) {
-    const seq = nextSeq++
-
-    worker.postMessage({ seq: seq, path: path })
-
-    const promise = new Promise((resolve) => {
-      resolvers[seq] = resolve
-    })
-
-    result = await promise
+  if (_workerReady) {
+    result = callWorker(path)
   } else {
-    let res = await fetch(api + path, {
-      headers: new Headers({
-        'Accept': 'application/json'
-      })
-    })
-    result = await res.json()
+    result = callWeb(path)
   }
 
   return result
 }
-
-// ----------------------------------------------------------------------------
-// External APIs.
-
-let module = {
-  // A cached {langID: spec} object from the last "/specs" request.
-  $specs: {},
-
-  // Whether the Web Worker is ready to run Hangulize on the client-side.
-  workerReady: false
-
-}
-
-// Fill Hangulize API as async functions.
-_.forEach(paths, (fPath, name) => {
-  module[name] = async function () {
-    const path = fPath.apply(this, arguments)
-    return call(path)
-  }
-})
-
-// Capture a "/specs" response to $specs.
-const _specs = module.specs
-if (_specs !== undefined) {
-  module.specs = async function () {
-    const result = await _specs()
-
-    module.$specs = {}
-    _.forEach(result.specs, (spec) => {
-      module.$specs[spec.lang.id] = spec
-    })
-
-    return result
-  }
-}
-
-export default module
