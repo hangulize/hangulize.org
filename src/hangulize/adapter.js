@@ -4,44 +4,9 @@ import { paths } from './api'
 import Worker from './worker'
 
 // ----------------------------------------------------------------------------
+// Calling Hangulize API via worker or api.hangulize.org.
 
 const api = 'https://api.hangulize.org/v2'
-
-let module = {
-  // A cached {langID: spec} object from the last "/specs" request.
-  $specs: {},
-
-  // Whether the Web Worker is ready to run Hangulize on the client-side.
-  workerReady: false
-
-}
-
-// Fill Hangulize API as async functions.
-_.forEach(paths, (fPath, name) => {
-  module[name] = async function () {
-    const path = fPath.apply(this, arguments)
-    return call(path)
-  }
-})
-
-// Capture a "/specs" response to $specs.
-const _specs = module.specs
-if (_specs !== undefined) {
-  module.specs = async function () {
-    const result = await _specs()
-
-    module.$specs = {}
-    _.forEach(result.specs, (spec) => {
-      module.$specs[spec.lang.id] = spec
-    })
-
-    return result
-  }
-}
-
-export default module
-
-// ----------------------------------------------------------------------------
 
 let nextSeq = 0
 let results = {}
@@ -92,3 +57,40 @@ async function call (path) {
 
   return result
 }
+
+// ----------------------------------------------------------------------------
+// External APIs.
+
+let module = {
+  // A cached {langID: spec} object from the last "/specs" request.
+  $specs: {},
+
+  // Whether the Web Worker is ready to run Hangulize on the client-side.
+  workerReady: false
+
+}
+
+// Fill Hangulize API as async functions.
+_.forEach(paths, (fPath, name) => {
+  module[name] = async function () {
+    const path = fPath.apply(this, arguments)
+    return call(path)
+  }
+})
+
+// Capture a "/specs" response to $specs.
+const _specs = module.specs
+if (_specs !== undefined) {
+  module.specs = async function () {
+    const result = await _specs()
+
+    module.$specs = {}
+    _.forEach(result.specs, (spec) => {
+      module.$specs[spec.lang.id] = spec
+    })
+
+    return result
+  }
+}
+
+export default module
