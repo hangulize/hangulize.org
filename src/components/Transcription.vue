@@ -294,7 +294,7 @@ input {
   background: transparent;
   font-size: 2rem;
   font-weight: 400;
-  line-height: 1.3;
+  line-height: 1.5;
   padding: 0;
   border: none;
   border-radius: 0;
@@ -323,7 +323,7 @@ input.script-roman, input.script-kana {
   font-family: 'Spoqa Han Sans', sans-serif;
   font-size: 1.75rem;
   font-weight: 400;
-  line-height: 1.3;
+  line-height: 1.2;
   color: #49e;
   word-wrap: break-word;
 }
