@@ -86,6 +86,7 @@ export default {
   data: () => ({
     selecting: false,
 
+    prevWord: '',
     transcribed: '',
 
     // Whether the transcribed is from an example.
@@ -114,8 +115,12 @@ export default {
       this.hangulize()
     },
 
-    word () {
+    word (word) {
+      if (word[0] !== this.prevWord[0]) {
+        this.transcribed = ''
+      }
       this.hangulize()
+      this.prevWord = word
     }
   },
 
