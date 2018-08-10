@@ -11,29 +11,29 @@ let module = {
 
 }
 
-// Prefetch the pronunciation always via the Web API.
-// Pronouncers are not built for JS.
-async function prefetchPronunciation (pronouncer, word) {
-  if (!pronouncer) {
+// Prefetch the phonograms always via the Web API.
+// Phonemizers are not built for JS.
+async function prefetchPhonograms (phonemizer, word) {
+  if (!phonemizer) {
     return
   }
 
-  const safePronouncer = encodeURIComponent(pronouncer)
+  const safePhonemizer = encodeURIComponent(phonemizer)
   const safeWord = encodeURIComponent(word)
 
-  const result = await callWeb(`/pronounced/${safePronouncer}/${safeWord}`)
+  const result = await callWeb(`/phonemized/${safePhonemizer}/${safeWord}`)
 
-  const safePronounced = encodeURIComponent(result.pronounced)
-  const path = `/_pronounced/${safePronouncer}/${safeWord}/${safePronounced}`
+  const safePhonemized = encodeURIComponent(result.phonemized)
+  const path = `/_phonemized/${safePhonemizer}/${safeWord}/${safePhonemized}`
 
   await callWorker(path)
 }
 
 module.hangulize = async function (lang, word) {
   if (workerReady()) {
-    // Prefetch the pronunciation.
+    // Prefetch the phonograms.
     const spec = module.$specs[lang]
-    await prefetchPronunciation(spec.lang.pronounce, word)
+    await prefetchPhonograms(spec.lang.phonemize, word)
   }
 
   let safeLang = encodeURIComponent(lang)

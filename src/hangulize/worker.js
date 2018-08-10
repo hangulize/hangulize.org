@@ -1,34 +1,35 @@
 import _ from 'lodash'
 import Navigo from 'navigo'
 
-self.importScripts('https://github.com/hangulize/hangulize.js/releases/download/0.1.2/hangulize-0.1.2.js')
+// self.importScripts('https://github.com/hangulize/hangulize.js/releases/download/0.1.2/hangulize-0.1.2.js')
+self.importScripts('static/hangulize.js')
 const H = self.hangulize
 
 // -----------------------------------------------------------------------------
-// Prefetched pronunciation keeper
+// Prefetched phonograms keeper
 
-let pronounciations = {}
+let phonograms = {}
 
-function keepPronounced (pronouncer, word, pronounced) {
-  if (pronounciations[pronouncer] === undefined) {
-    pronounciations[pronouncer] = {}
+function keepPhonemized (phonemizer, word, phonemized) {
+  if (phonograms[phonemizer] === undefined) {
+    phonograms[phonemizer] = {}
   }
-  pronounciations[pronouncer][word] = pronounced
+  phonograms[phonemizer][word] = phonemized
 }
 
-function popPronounced (pronouncer, word) {
-  if (pronounciations[pronouncer] === undefined) {
+function popPhonemized (phonemizer, word) {
+  if (phonograms[phonemizer] === undefined) {
     return
   }
 
-  const pronounced = pronounciations[pronouncer][word]
+  const phonemized = phonograms[phonemizer][word]
 
-  delete pronounciations[pronouncer][word]
-  if (_.size(pronounciations[pronouncer]) === 0) {
-    delete pronounciations[pronouncer]
+  delete phonograms[phonemizer][word]
+  if (_.size(phonograms[phonemizer]) === 0) {
+    delete phonograms[phonemizer]
   }
 
-  return pronounced
+  return phonemized
 }
 
 // -----------------------------------------------------------------------------
@@ -64,11 +65,11 @@ let route = {
     }
   },
 
-  // Keep prefetched pronounciation.
-  '/_pronounced/:pronouncer/:word/:pronounced': (H, params) => {
-    keepPronounced(params.pronouncer, params.word, params.pronounced)
-    H.usePronouncer(params.pronouncer, (word) => {
-      return popPronounced(params.pronouncer, word)
+  // Keep prefetched phonograms.
+  '/_phonemized/:phonemizer/:word/:phonemized': (H, params) => {
+    keepPhonemized(params.phonemizer, params.word, params.phonemized)
+    H.usePhonemizer(params.phonemizer, (word) => {
+      return popPhonemized(params.phonemizer, word)
     })
   }
 
