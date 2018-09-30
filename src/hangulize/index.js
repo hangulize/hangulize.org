@@ -33,7 +33,7 @@ module.hangulize = async function (lang, word) {
   if (workerReady()) {
     // Prefetch the phonograms.
     const spec = module.$specs[lang]
-    await prefetchPhonograms(spec.lang.phonemize, word)
+    await prefetchPhonograms(spec.lang.phonemizer, word)
   }
 
   let safeLang = encodeURIComponent(lang)
