@@ -192,9 +192,7 @@ export default {
       pasteFirstLine()
 
       lines.shift()
-      _.forEach(lines, (line) => {
-        this.insertBelow(line)
-      })
+      this.$emit('pasteBelow', lines)
     }
   },
 

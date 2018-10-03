@@ -25,6 +25,7 @@
 
         @close="() => removeIfNotFirst(i)"
         @submit.prevent="() => insertBelow(i)"
+        @pasteBelow="(lines) => pasteBelow(i, lines)"
 
         @keydown.up="focus(i - 1)"
         @keydown.down="focus(i + 1)"
@@ -42,6 +43,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import { mapState } from 'vuex'
 import GlobalEvents from 'vue-global-events'
 
@@ -104,6 +106,16 @@ export default {
       index++
       this.$store.commit('insertTranscription', { index })
       this.focus(index)
+    },
+
+    pasteBelow (index, lines) {
+      _.forEach(lines, (line, i) => {
+        this.$store.commit('insertTranscription', {
+          index: index + i + 1,
+          word: line
+        })
+      })
+      this.focus(index + lines.length)
     },
 
     insertLast () {
